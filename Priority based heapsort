@@ -1,0 +1,107 @@
+#include <iostream>
+#include <vector>
+  
+using namespace std;
+
+//utilitty function to generate the vector of given size
+vector<int> generate(int n)
+{
+   vector<int>array;
+   srand(11);
+   for(int i=0;i<n;i++)
+   {
+       int temp=rand()%101;//generating random numbers btw 0 and 100
+       array.push_back(temp);
+   }
+   return array;
+}
+
+
+// a utility function that will perform the
+// heapification on the given index i
+//taking 2 parameters one vector array by reference
+// second current root
+void Heapify(vector<int > &array, int n,int i)
+{
+   // Initialize largest as root
+int root = i;
+int left = 2*i + 1;
+int right = 2*i + 2;
+
+// If left child is larger than root
+if (left < n && array[left] > array[root])
+root = left;
+  
+// If right child is larger than root and left child
+if (right < n && array[right] > array[root])
+root = right;
+  
+// If largest is not root
+if (root != i)
+{
+swap(array[i], array[root]);
+
+// Recursively calling
+//the heapify if the tree was affected
+Heapify(array, n, root);
+}
+}
+  
+// utility function to performe
+//heap Sort
+void HeapSort(vector<int>&array)
+{
+
+   int n=array.size();//size of the array
+//Building the max heap
+for (int i = n / 2 - 1; i >= 0; i--)
+{
+   Heapify(array, n, i);
+       }
+  
+// One by one extract an element from heap
+for (int i=n-1; i>0; i--)
+{
+// Max element will be at 0 index
+// swapping it with its correct position
+swap(array[0], array[i]);
+  
+// now call Heapify on the reduced heap
+Heapify(array, i, 0);
+}
+}
+  
+// A utility function to print the vector
+void print(vector<int> array)
+{
+for (int i=0; i<array.size(); ++i)
+cout << array[i] << " ";
+cout << "\n";
+}
+  
+
+
+//testing our code
+int main()
+{
+
+vector<int >array;
+
+//genearting the vector of size 50
+
+array=generate(50);
+
+//printing the unsorted array
+cout<<"Unsorted Array:- \n";
+print(array);
+
+//performing the heap sort
+
+HeapSort(array);
+
+//printing the unsorted array
+cout<<"\n\nSorted Array:- \n";
+print(array);
+
+
+}
