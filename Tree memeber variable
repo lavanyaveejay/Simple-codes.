@@ -1,0 +1,75 @@
+#include <iostream>
+using namespace std;
+
+class Example 
+{
+private:
+int num1;
+float num2;
+long num3;
+
+public:
+
+Example(){ //constructor
+num1=10;
+num2=10.23;
+num3=2147483847;
+}
+
+//getters and setters for int,flolat and long
+void setInt(int n) {
+num1 = n;
+}
+int getInt() {
+return num1;
+}
+void setFloat(float n) {
+num2 = n;
+}
+int getFloat() {
+return num2;
+}
+void setLong(long n) {
+num3 = n;
+}
+int getLong() {
+return num3;
+}
+
+//Function for calculating sum
+float sumOfIntFloat(int a,float b){
+return (a+b);
+}
+  
+long sumOfIntLong(int a,long b){
+return (a+b);
+}
+long sumOfFloatLong(float a,long b){
+return (a+b);
+}
+ int sumofint(int a,int b) 
+ {
+   return (a+b);
+ }
+ float sumoffloat(float a,float b)
+ {
+   return (a+b);
+  }
+  long sumoflong(long a ,long b)
+  {
+    return (a+b);
+  }
+ };
+
+int main() {
+Example myObj;
+myObj.setInt(50000);
+cout << myObj.sumofint(5,6)<<endl;
+cout << myObj.sumoffloat(3.6,3.6)<<endl;
+cout << myObj.sumoflong(2457445,2457445)<<endl;
+cout << myObj.getInt()<<endl;
+cout << myObj.sumOfIntFloat(2,3.6)<<endl;
+cout << myObj.sumOfIntLong(8,24574457457)<<endl;
+cout << myObj.sumOfFloatLong(8.6,24574457457);
+return 0;
+}
