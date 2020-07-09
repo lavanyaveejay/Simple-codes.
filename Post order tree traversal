@@ -1,0 +1,125 @@
+#include <stdio.h>
+#include <iostream>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <conio.h>
+#include <boost/filesystem.hpp>
+ 
+struct path_leaf_string
+{
+    std::string operator()(const boost::filesystem::directory_entry& entry) const
+    {
+        return entry.path().leaf().string();
+    }
+};
+ 
+void read_directory(const std::string& name, stringvec& v)
+{
+    boost::filesystem::path p(name);
+    boost::filesystem::directory_iterator start(p);
+    boost::filesystem::directory_iterator end;
+    std::transform(start, end, std::back_inserter(v), path_leaf_string());
+}
+using namespace std;
+int FindFolder(string, string, int);
+#define FOLD 16
+typedef struct
+{
+string F_Name;
+int F_size;
+int F_Files;
+}DeskFold;
+int files;
+int main(int argc, char *argv[])
+{
+/* DELCARATIONS */
+WIN32_FIND_DATA FindFileData;
+char c[1000];
+int i = 0;
+int j;
+string sTmp;
+ 
+HWND hwnd;
+HANDLE hFind;
+ 
+vector<DeskFold> MyVect;
+DeskFold SObj;
+
+/* Finds the path of desktop */
+SHGetSpecialFolderPath(hwnd,c,CSIDL_DESKTOP,0);
+sTmp.assign(c);
+sTmp.append("\\");
+string sPath;
+sPath.assign(sTmp);
+sPath.append("*");
+
+/* This statement could find the folders and files of the particular desktop*/
+
+hFind = FindFirstFile(sPath.data(), &FindFileData);
+do
+{
+if(FindFileData.dwFileAttributes == FOLD)
+
+ // only to access the folders
+{
+i++;
+if( i > 2)
+{
+SObj.F_Name.assign(FindFileData.cFileName);
+files = 0;
+SObj.F_size = FindFolder(sTmp, FindFileData.cFileName, 0);
+SObj.F_Files = files;
+MyVect.push_back(SObj);
+}
+}
+}while (FindNextFile(hFind, &FindFileData));
+ 
+FindClose(hFind);
+ 
+for(j = 0; j<MyVect.size(); j++)
+{
+cout<<"Folder name : "<<MyVect.at(j).F_Name.data()<<endl;
+cout<<"Folder size : "<<MyVect.at(j).F_size<<endl;
+cout<<"Folder files : "<<MyVect.at(j).F_Files<<endl<<endl;
+}
+cout<<"\nNumber of folders: "<<i-2<<endl;
+ 
+return 0;
+}
+int F_Folder(string sPath, string F_Name, int foldersize)
+{
+int i = 0;
+WIN32_FIND_DATA FindFileData;
+HANDLE hFind;
+string sPath1;
+sPath.append(F_Name.data());
+sPath.append("\\");
+sPath1.append(sPath);
+sPath1.append("*");
+hFind = FindFirstFile(sPath1.data(), &FindFileData);
+do
+{
+foldersize += FindFileData.nFileSizeLow;
+if(FindFileData.dwFileAttributes == 16)
+{
+i++;
+if( i > 2)
+FindFolder(sPath,FindFileData.cFileName,FindFileData.nFileSizeLow);
+}
+else
+files++;
+}while (FindNextFile(hFind, &FindFileData));
+FindClose(hFind);
+return F_size;
+}
+// The below program is the another set that helps in determining the size of directories
+
+#include <string>
+#include <iostream>
+#include <filesystem>
+namespace fs = std:: filesystem;
+    std::string path = "/path/to/directory";
+    for (const auto & entry : fs::directory_iterator(path))
+        std::cout << entry.path() << std::endl;
+}
