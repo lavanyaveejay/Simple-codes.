@@ -1,0 +1,110 @@
+#include <iostream>
+
+using namespace std;
+template<typename E>
+class SLinkedList;
+
+// class SNode for nodes in single linked list
+// given declaration in the image
+template<typename E>
+class SNode {
+private:
+E elem;
+SNode *next;
+friend class SLinkedList<E>;
+};
+
+// template class for single linked list
+// given declaration in the image
+template<typename E>
+class SLinkedList {
+public:
+SLinkedList();
+~SLinkedList();
+bool empty() const;
+const E& front() const;
+void addFront(const E& e);
+void removeFront();
+void print();
+private:
+SNode<E>* head;
+};
+
+
+// all the member function definitions added
+template<typename E>
+SLinkedList<E>::SLinkedList() {
+head = nullptr;
+}
+
+template<typename E>
+SLinkedList<E>::~SLinkedList() {
+SNode<E>* temp = head;
+while (temp) {
+SNode<E>* temp1 = temp;
+temp = temp->next;
+  
+delete temp1;
+}
+}
+
+template<typename E>
+bool SLinkedList<E>::empty() const {
+return (head) ? false : true;
+}
+
+template<typename E>
+const E& SLinkedList<E>::front() const {
+return *head;
+}
+
+template<typename E>
+void SLinkedList<E>::addFront(const E& e) {
+SNode<E>* temp = new SNode<E>();
+temp->elem = e;
+temp->next = head;
+head = temp;
+}
+
+template<typename E>
+void SLinkedList<E>::removeFront() {
+SNode<E>* temp = head;
+head = head->next;
+delete temp;
+}
+
+
+template<typename E>
+void SLinkedList<E>::print() {
+SNode<E>* temp = head;
+std::cout<<"\n";
+while (temp) {
+std::cout<<temp->elem;
+temp = temp->next;
+if (temp) {
+std::cout<<" -> ";
+}
+}
+std::cout<<"\n";
+}
+
+int main()
+{
+// driver to checking the working of the code
+SLinkedList<int> s;
+s.addFront(1);
+s.addFront(2);
+s.addFront(3);
+s.addFront(4);
+s.addFront(5);
+s.print();
+  
+s.removeFront();
+s.print();
+  
+
+return 0;
+}
+
+
+
